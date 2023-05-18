@@ -3,8 +3,9 @@ import dropdownIcon from '../assets/icon-chevron-down.svg';
 import upIcon from '../assets/icon-chevron-up.svg';
 import { useState } from 'react';
 import elipsis from '../assets/icon-vertical-ellipsis.svg';
+import HeaderDropdown from './HeaderDropdown';
 function Header() {
-    const [openDropDown, setOpenDropDown] = useState(false);
+    const [openDropdown, setOpenDropdown] = useState(false);
     return (
         <div className=" p-4 fixed left-0 bg-white dark:bg-[#2b2c37] z-50 right-0 ">
             <header className=" flex justify-between dark:text-white items-center  ">
@@ -19,17 +20,17 @@ function Header() {
                             board Name
                         </h3>
                         <img
-                            src={openDropDown ? upIcon : dropdownIcon}
+                            src={openDropdown ? upIcon : dropdownIcon}
                             alt="dropdown icon"
                             className='w-3 ml-2 md:hidden cursor-pointer'
-                            onClick={() => setOpenDropDown((dropdown) => !dropdown)}
+                            onClick={() => setOpenDropdown((dropdown) => !dropdown)}
                         />
                     </div>
                 </div>
 
                 {/* Right Side */}
                 <div className='flex space-x-4 items-center md:space-x-6'>
-                    <button className='button'>
+                    <button className='hidden md:block button'>
                         + Add New Task
                     </button>
                     <button className='button py-1 px-3 md:hidden'>
@@ -38,6 +39,7 @@ function Header() {
                     <img src={elipsis} alt="sidebar" className='cursor-pointer h-6' />
                 </div>
             </header>
+            {openDropdown && <HeaderDropdown setOpenDropdown={setOpenDropdown} />}
         </div>
     )
 }
