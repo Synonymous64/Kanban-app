@@ -4,7 +4,9 @@ import upIcon from '../assets/icon-chevron-up.svg';
 import { useState } from 'react';
 import elipsis from '../assets/icon-vertical-ellipsis.svg';
 import HeaderDropdown from './HeaderDropdown';
-function Header() {
+import AddEditBoardModal from '../modals/AddEditBoardModal';
+
+function Header({ boardModalOpen, setBoardModalOpen }) {
     const [openDropdown, setOpenDropdown] = useState(false);
     return (
         <div className=" p-4 fixed left-0 bg-white dark:bg-[#2b2c37] z-50 right-0 ">
@@ -39,7 +41,15 @@ function Header() {
                     <img src={elipsis} alt="sidebar" className='cursor-pointer h-6' />
                 </div>
             </header>
-            {openDropdown && <HeaderDropdown setOpenDropdown={setOpenDropdown} />}
+            {openDropdown &&
+                <HeaderDropdown
+                    setOpenDropdown={setOpenDropdown}
+                    setBoardModalOpen={setBoardModalOpen}
+                />
+            }
+            {
+                boardModalOpen && <AddEditBoardModal setBoardModalOpen={setBoardModalOpen} />
+            }
         </div>
     )
 }

@@ -6,7 +6,7 @@ import { Switch } from '@headlessui/react';
 import useDarkMode from '../Hooks/useDarkMode';
 import { useState } from 'react';
 
-const HeaderDropdown = ({ setOpenDropdown }) => {
+const HeaderDropdown = ({ setOpenDropdown, setBoardModalOpen }) => {
     const [colorTheme, setTheme] = useDarkMode();
     const [darkSide, setDarkSide] = useState(
         colorTheme === 'light' ? true : false
@@ -47,7 +47,11 @@ const HeaderDropdown = ({ setOpenDropdown }) => {
                         </div>
                     ))}
                     <div
-                        className='flex items-baseline space-x-2 text-[#635fc7] px-5 py-4'
+                        className='flex items-baseline space-x-2 text-[#635fc7] px-5 py-4 cursor-pointer'
+                        onClick={() => {
+                            setBoardModalOpen(true);
+                            setOpenDropdown(false);
+                        }}
                     >
                         <img src={boardIcon} alt="New Board Icon" className='h-4' />
                         <p className='text-lg font-bold'>
