@@ -5,9 +5,18 @@ import { useState } from 'react';
 import elipsis from '../assets/icon-vertical-ellipsis.svg';
 import HeaderDropdown from './HeaderDropdown';
 import AddEditBoardModal from '../modals/AddEditBoardModal';
+import { useDispatch, useSelector } from 'react-redux';
+import AddEditTaskModal from '../modals/AddEditTaskModal';
 
 function Header({ boardModalOpen, setBoardModalOpen }) {
     const [openDropdown, setOpenDropdown] = useState(false);
+    const [boardType, setBoardType] = useState('add');
+    const dispatch = useDispatch();
+    const [openAddEditTask, setOpenAddEditTask] = useState(false);
+
+    const boards = useSelector((state) => state.boards);
+    const board = boards.find(board => board.isActive);
+
     return (
         <div className=" p-4 fixed left-0 bg-white dark:bg-[#2b2c37] z-50 right-0 ">
             <header className=" flex justify-between dark:text-white items-center  ">
@@ -19,7 +28,7 @@ function Header({ boardModalOpen, setBoardModalOpen }) {
                     </h3>
                     <div className='flex items-center'>
                         <h3 className='truncate max-w-[200px] md:text-2xl text-xl font-bold md:ml-20 font-sans'>
-                            board Name
+                            {board.name}
                         </h3>
                         <img
                             src={openDropdown ? upIcon : dropdownIcon}
@@ -35,7 +44,12 @@ function Header({ boardModalOpen, setBoardModalOpen }) {
                     <button className='hidden md:block button'>
                         + Add New Task
                     </button>
-                    <button className='button py-1 px-3 md:hidden'>
+                    <button
+                        onClick={() => {
+                            setOpenAddEditTask(state => !state)
+                        }}
+                        className='button py-1 px-3 md:hidden'
+                    >
                         +
                     </button>
                     <img src={elipsis} alt="sidebar" className='cursor-pointer h-6' />
@@ -48,7 +62,10 @@ function Header({ boardModalOpen, setBoardModalOpen }) {
                 />
             }
             {
-                boardModalOpen && <AddEditBoardModal setBoardModalOpen={setBoardModalOpen} />
+                boardModalOpen && <AddEditBoardModal setBoardModalOpen={setBoardModalOpen} type={boardType} />
+            }
+            {
+                openAddEditTask && <AddEditTaskModal device="mobile" setOpenAddEditTask={setOpenAddEditTask} />
             }
         </div>
     )
